@@ -8,9 +8,11 @@ object Solution {
 
         def sort(xs: List[Int]): List[Int] = {
             def quick(list: List[Int], pivot: Int, left: Int, right: Int) = {
-                
+                list.patch(5, Seq(0), 1)
+                println(list(0))
+                list
             }
-            xs
+            quick(xs, 0, 0, 0)
         }
         val sortedXs = sort(xs)
 
