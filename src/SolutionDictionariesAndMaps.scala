@@ -1,29 +1,28 @@
-import scala.collection.mutable.{Map, SynchronizedMap, HashMap}
+import scala.collection.concurrent.TrieMap
 
 object Solution {
+        
+    def query(phoneBook: TrieMap[String, String]) {
+        while(true) {
+            scala.io.StdIn.readLine match {
+                case q: String if null != q && !q.isEmpty => {
+                    phoneBook.getOrElse(q, None) match {
+                        case None => println("Not found")
+                        case s => println(q + "=" + s)
+                    }
+                }
+                case _ => return
+            }
+        }
+    }
 
     def main(args: Array[String]): Unit = {
-        val n = scala.io.StdIn.readInt
-        var phoneBook = new HashMap[String, String] with SynchronizedMap[String, String]
-        for(i <- 1 to n) {
+        val phoneBook = new TrieMap[String, String]
+        for(i <- 1 to scala.io.StdIn.readInt) {
             val pair = scala.io.StdIn.readLine.split(" ")
             phoneBook += (pair(0) -> pair(1))
         }
-        
-        def query {
-            while(true) {
-                scala.io.StdIn.readLine match {
-                    case q: String if "" != q => {
-                        phoneBook.getOrElse(q, None) match {
-                            case None => println("Not found")
-                            case s => println(q + "=" + s)
-                        }
-                    }
-                }
-            }
-        }
-
-        query
+        query(phoneBook)
     }
 
 }
