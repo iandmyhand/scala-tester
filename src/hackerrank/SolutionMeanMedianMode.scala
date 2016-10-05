@@ -33,6 +33,7 @@ object Solution {
     }
     
     def mode(list: List[Int]): Int = {
+        var max = 0
         var map = new TrieMap[Int, Int]
         list foreach {
             n => {
@@ -41,13 +42,11 @@ object Solution {
                     map += (n -> 1)
                 else
                     map += (n -> (v + 1))
+                    if (max < v + 1)
+                        max = v + 1
             }
         }
-        var mode = map.max
-        if (mode._2 == 1)
-            list(0)
-        else
-            mode._1
+        map.filter(_._2 == max).min._1
     }
     
 }
