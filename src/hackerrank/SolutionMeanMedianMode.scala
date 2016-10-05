@@ -1,39 +1,53 @@
+import scala.collection.concurrent.TrieMap
+
 object Solution {
 
-    def main(args: Array[String]): Unit = {
-        /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution */
-        val num: Int = scala.io.StdIn.readInt
-        val x: String = scala.io.StdIn.readLine
-        val xs: List[Int] = x.split(" ").map(_.toInt).toList
+    def main(args: Array[String]) {
+        val n = scala.io.StdIn.readInt
+        val list = scala.io.StdIn.readLine.split(" ").map(_.toInt).toList
+        val sorted = sort(list)
 
-        def sort(xs: List[Int]): List[Int] = {
-            def quick(list: List[Int], pivot: Int, left: Int, right: Int) = {
-                list.patch(5, Seq(0), 1)
-                println(list(0))
-                list
+        println(mean(sorted))
+        println(median(sorted))
+        println(mode(sorted))
+    }
+    
+    def sort(list: List[Int]): List[Int] = {
+        if (2 > list.length)
+            list
+        else {
+            val pivot = list(list.length / 2)
+            sort(list.filter(_ < pivot)) ::: list.filter(_ == pivot) ::: sort(list.filter(_ > pivot))
+        }
+    }
+    
+    def mean(list: List[Int]): Double = {
+        (math rint list.foldLeft(0){(x, y) => x + y} / list.length.toDouble * 10) / 10
+    }
+    
+    def median(list: List[Int]): Double = {
+        if (list.length % 2 == 0)
+            (math rint (list(list.length / 2 - 1) + list(list.length / 2)) / 2.0 * 10) / 10
+        else
+            (math rint (list(list.length / 2) + list(list.length / 2 + 1)) / 2.0 * 10) / 10
+    }
+    
+    def mode(list: List[Int]): Int = {
+        var map = new TrieMap[Int, Int]
+        list foreach {
+            n => {
+                val v = map.getOrElse(n, 0)
+                if(0 == v)
+                    map += (n -> 1)
+                else
+                    map += (n -> (v + 1))
             }
-            quick(xs, 0, 0, 0)
         }
-        val sortedXs = sort(xs)
-
-        println(findMean(sortedXs))
-        println(findMedian(sortedXs))
-        println(findMode(sortedXs))
+        var mode = map.max
+        if (mode._2 == 1)
+            list(0)
+        else
+            mode._1
     }
-
-    def findMean(xs: List[Int]): Double = {
-        def sum(xs: List[Int]): Int = xs match {
-            case Nil => 0
-            case head :: tail => head + sum(tail)
-        }
-        (math rint (sum(xs) / xs.length) * 10) / 10
-    }
-
-    def findMedian(xs: List[Int]): Double = {
-        (math rint xs(0) * 10) / 10
-    }
-
-    def findMode(xs: List[Int]): Double = {
-        (math rint xs(0) * 10) / 10
-    }
+    
 }
