@@ -1,3 +1,4 @@
+import scala.annotation.tailrec
 import scala.collection.concurrent.TrieMap
 
 object Solution {
@@ -12,6 +13,7 @@ object Solution {
         println(mode(sorted))
     }
     
+    @tailrec
     def sort(list: List[Int]): List[Int] = {
         if (2 > list.length)
             list
