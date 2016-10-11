@@ -13,7 +13,7 @@ object Solution {
         println(mode(sorted))
     }
     
-    @tailrec
+//    @tailrec
     def sort(list: List[Int]): List[Int] = {
         if (2 > list.length)
             list

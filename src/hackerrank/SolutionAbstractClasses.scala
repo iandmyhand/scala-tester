@@ -1,4 +1,6 @@
-object Solution {
+package hackerrank
+
+object SolutionAbstractClasses {
     
     trait Book {
         val title: String
